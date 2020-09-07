@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
+import { TransactionsBridgeModule } from './transactions-bridge/transactions-bridge.module';
 
 
 
 @Module({
-  imports: [],
+  imports: [TransactionsBridgeModule],
   controllers: [],
   providers: [],
 })
