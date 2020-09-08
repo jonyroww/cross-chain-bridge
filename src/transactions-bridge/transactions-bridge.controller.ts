@@ -5,18 +5,18 @@ import { TransferTokensDto } from './dto/transfer-tokens.dto';
 import { GetHistoryDto } from './dto/get-history.dto';
 
 
-@Controller()
+@Controller('transfers')
 export class TransactionsBridgeController {
     constructor(private transactionsApiService: TransactionsApiService){}
 
     @ApiCreatedResponse()
-    @Post('transfer')
+    @Post()
     transferTokens(@Body() body: TransferTokensDto){
         return this.transactionsApiService.transferTokens(body)
     }
 
     @ApiOkResponse()
-    @Get('history')
+    @Get()
     getHistory(@Param() param: GetHistoryDto){
         return this.transactionsApiService.getHistory(param.address)
     }
