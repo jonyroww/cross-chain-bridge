@@ -26,6 +26,7 @@
     "@nestjs/platform-express": "^7.0.0",
     "@nestjs/swagger": "^4.6.0",
     "axios": "^0.20.0",
+    "class-validator": "^0.12.2",
     "dotenv": "^8.2.0",
     "env-decorator": "^1.0.0",
     "reflect-metadata": "^0.1.13",
