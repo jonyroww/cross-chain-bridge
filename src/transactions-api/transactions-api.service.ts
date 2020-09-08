@@ -4,11 +4,12 @@ import { config } from 'src/config';
 import { NodeTypes } from './constants/NodeTypes.enum';
 import { TransferTokensResponse } from './types/TransferTokensResponse';
 import { GetHistoryResponse } from './types/GetHistoryResponse';
+import { TransferTokensDto } from 'src/transactions-bridge/dto/transfer-tokens.dto';
 
 
 @Injectable()
 export class TransactionsApiService {
-    public transferTokens(addressFrom: string, addressTo: string, amount: number, fromNode: NodeTypes, toNode: NodeTypes): AxiosPromise<TransferTokensResponse>{
+    public transferTokens({addressFrom, addressTo, amount, fromNode, toNode}: TransferTokensDto): AxiosPromise<TransferTokensResponse>{
         return axios.post(config.TRANSFER_TOKENS_API_URL, {
             addressFrom,
             addressTo,
