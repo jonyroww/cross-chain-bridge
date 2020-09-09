@@ -1,9 +1,9 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import axios, { AxiosPromise, AxiosResponse } from 'axios';
 import { config } from 'src/config';
-import { TransferTokensResponse } from './types/TransferTokensResponse';
-import { GetHistoryResponse } from './types/GetHistoryResponse';
-import { TransferTokensDto } from 'src/transactions-bridge/dto/transfer-tokens.dto';
+import { TransferTokensDto } from './dto/TransferTokensDto';
+import { GetHistoryDto } from './dto/GetHistoryDto';
+import { TransferTokensBodyDto } from 'src/transactions-bridge/dto/transfer-tokens.dto';
 import { Logger } from "nestjs-pino";
 
 
@@ -11,7 +11,7 @@ import { Logger } from "nestjs-pino";
 export class TransactionsApiService {
     constructor(private readonly logger: Logger) {}
 
-    public async transferTokens({addressFrom, addressTo, amount, fromNode, toNode}: TransferTokensDto): Promise<TransferTokensResponse>{
+    public async transferTokens({addressFrom, addressTo, amount, fromNode, toNode}: TransferTokensBodyDto): Promise<TransferTokensDto>{
         try {
             return await axios.post(config.TRANSFER_TOKENS_API_URL, {
                 addressFrom,
@@ -27,7 +27,7 @@ export class TransactionsApiService {
         }
     }
 
-    public async getHistory(address: string): Promise<GetHistoryResponse> {
+    public async getHistory(address: string): Promise<GetHistoryDto> {
         try {
             return await axios.get(config.HISTORY_TRANSACTIONS_API, {params: {address}})
         } catch (e) {
