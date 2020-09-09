@@ -29,10 +29,12 @@
     "class-validator": "^0.12.2",
     "dotenv": "^8.2.0",
     "env-decorator": "^1.0.0",
+    "nestjs-pino": "^1.2.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
-    "swagger": "^0.7.5"
+    "swagger": "^0.7.5",
+    "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",

@@ -10,6 +10,6 @@ async function bootstrap() {
 
   setupSwagger(app);
 
-  await app.listen(config.PORT, config.HOST);
+  await app.listen(config.PORT);
 }
 bootstrap();
