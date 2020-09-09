@@ -10,6 +10,11 @@ async function bootstrap() {
 
   setupSwagger(app);
 
-  await app.listen(config.PORT);
+  try {
+    await app.listen(config.PORT);
+  } catch (e) {
+    console.error(e);
+    this.logger.error(JSON.stringify(e))
+  }
 }
 bootstrap();
