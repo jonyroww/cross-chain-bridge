@@ -1,0 +1,15 @@
+version: '3'
+networks:
+  ignite-interproject-network:
+    external:
+      name: ignite-interproject-network
+services:
+    ignite-cross-chain-bridge-backend:
+    build: .
+    env_file: .env
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:${DOCKER_COMPOSE_PORT}:80
+    networks:
+      default: null
+      ignite-interproject-network: null
