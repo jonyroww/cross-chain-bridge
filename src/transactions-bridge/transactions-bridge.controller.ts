@@ -1,11 +1,11 @@
 import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { TransactionsApiService } from 'src/transactions-api/transactions-api.service';
-import { TransferTokensBodyDto } from './dto/transfer-tokens.dto';
-import { GetHistoryParamDto } from './dto/get-history.dto';
+import { TransferTokensBodyDto } from './dto/transfer-tokens-body.dto';
+import { GetHistoryParamDto } from './dto/get-history-params.dto';
 import { Logger } from "nestjs-pino";
-import { TransferTokensDto } from '../transactions-api/dto/TransferTokensDto';
-import { GetHistoryDto } from 'src/transactions-api/dto/GetHistoryDto';
+import { TransferTokensResponseDto } from '../transactions-api/dto/TransferTokensResponseDto';
+import { GetHistoryResponseDto } from 'src/transactions-api/dto/GetHistoryResponseDto';
 
 
 @Controller('transfers')
@@ -15,9 +15,9 @@ export class TransactionsBridgeController {
         private logger: Logger
         ){}
 
-    @ApiCreatedResponse({type: () => TransferTokensDto})
+    @ApiCreatedResponse({type: () => TransferTokensResponseDto})
     @Post()
-    transferTokens(@Body() body: TransferTokensBodyDto): TransferTokensDto {
+    transferTokens(@Body() body: TransferTokensBodyDto): TransferTokensResponseDto {
         this.logger.log(`Transfer data: ${JSON.stringify(body)}`, "transferTokens")
         //return this.transactionsApiService.transferTokens(body)
         return {
@@ -38,9 +38,9 @@ export class TransactionsBridgeController {
           }
     }
 
-    @ApiOkResponse({type: () => GetHistoryDto})
+    @ApiOkResponse({type: () => GetHistoryResponseDto})
     @Get()
-    getHistory(@Param() param: GetHistoryParamDto): GetHistoryDto {
+    getHistory(@Param() param: GetHistoryParamDto): GetHistoryResponseDto {
         this.logger.log(`History for address: ${JSON.stringify(param.address)}`, "getHistory")
         //return this.transactionsApiService.getHistory(param.address)
         return {

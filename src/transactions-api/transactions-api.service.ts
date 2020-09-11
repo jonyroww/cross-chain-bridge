@@ -1,9 +1,9 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import axios, { AxiosPromise, AxiosResponse } from 'axios';
 import { config } from 'src/config';
-import { TransferTokensDto } from './dto/TransferTokensDto';
-import { GetHistoryDto } from './dto/GetHistoryDto';
-import { TransferTokensBodyDto } from 'src/transactions-bridge/dto/transfer-tokens.dto';
+import { TransferTokensResponseDto } from './dto/TransferTokensResponseDto';
+import { GetHistoryResponseDto } from './dto/GetHistoryResponseDto';
+import { TransferTokensBodyDto } from 'src/transactions-bridge/dto/transfer-tokens-body.dto';
 import { Logger } from "nestjs-pino";
 
 
@@ -11,29 +11,31 @@ import { Logger } from "nestjs-pino";
 export class TransactionsApiService {
     constructor(private readonly logger: Logger) {}
 
-    public async transferTokens({addressFrom, addressTo, amount, fromNode, toNode}: TransferTokensBodyDto): Promise<TransferTokensDto>{
+    public async transferTokens({addressFrom, addressTo, amount, fromNode, toNode}: TransferTokensBodyDto): Promise<TransferTokensResponseDto>{
         try {
-            return await axios.post(config.TRANSFER_TOKENS_API_URL, {
+            const transferResponse = await axios.post(config.TRANSFER_TOKENS_API_URL, {
                 addressFrom,
                 addressTo,
                 amount,
                 fromNode,
                 toNode
-            })
+            });
+            return transferResponse.data;
         } catch (e) {
             console.error(e);
             this.logger.error(JSON.stringify(e))
-            throw new BadRequestException(e.message)
+            throw new Error(e.message)
         }
     }
 
-    public async getHistory(address: string): Promise<GetHistoryDto> {
+    public async getHistory(address: string): Promise<GetHistoryResponseDto> {
         try {
-            return await axios.get(config.HISTORY_TRANSACTIONS_API, {params: {address}})
+            const historyResponse = await axios.get(config.HISTORY_TRANSACTIONS_API, {params: {address}});
+            return historyResponse.data;
         } catch (e) {
             console.error(e);
             this.logger.error(JSON.stringify(e))
-            throw new BadRequestException(e.message)
+            throw new Error(e.message)
         }
     }
 }

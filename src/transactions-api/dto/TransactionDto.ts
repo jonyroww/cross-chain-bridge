@@ -35,12 +35,6 @@ export class TransactionDto {
     @IsString()
     amount: string;
 
-    /*
-    @ApiProperty({enum: StatusTypes})
-    @IsEnum(StatusTypes)
-    status: StatusTypes;
-*/
-
     @ApiProperty()
     @IsString()
     status: string;

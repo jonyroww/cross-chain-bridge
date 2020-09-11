@@ -1,10 +1,12 @@
 version: '3'
+
 networks:
   ignite-interproject-network:
     external:
       name: ignite-interproject-network
+      
 services:
-    ignite-cross-chain-bridge-backend:
+    ignite-bridge-backend:
     build: .
     env_file: .env
     restart: unless-stopped
@@ -13,3 +15,4 @@ services:
     networks:
       default: null
       ignite-interproject-network: null
+        aliases: cross-chain-bridge-api

@@ -1,6 +1,6 @@
 import { TransactionDto } from "./TransactionDto";
 
-export class GetHistoryDto {
+export class GetHistoryResponseDto {
     status: string;
     transactions: TransactionDto[];
 }
