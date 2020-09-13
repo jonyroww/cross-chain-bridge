@@ -9,6 +9,7 @@ import { GetHistoryResponseDto } from 'src/transactions-api/dto/GetHistoryRespon
 import { StatusCheckDto } from './dto/status-check-params.dto';
 import { CheckStatusResponseDto } from 'src/transactions-api/dto/CheckStatusResponseDto';
 import { TransactionDto } from 'src/transactions-api/dto/TransactionDto';
+import { CreateTransferResponseDto } from './dto/CreateTransferResponse.dto';
 
 @Controller('transfers')
 export class TransactionsBridgeController {
@@ -17,25 +18,15 @@ export class TransactionsBridgeController {
     private logger: Logger,
   ) {}
 
-  @ApiCreatedResponse({ type: () => TransactionDto })
+  @ApiCreatedResponse({ type: () => CreateTransferResponseDto })
   @Post()
-  transferTokens(@Body() body: TransferTokensBodyDto): TransactionDto {
+  transferTokens(
+    @Body() body: TransferTokensBodyDto,
+  ): CreateTransferResponseDto {
     this.logger.log(`Transfer data: ${JSON.stringify(body)}`, 'transferTokens');
     // return this.transactionsApiService.transferTokens(body);
     return {
       id: '6c72bb89-7a87-4511-8cd8-5c90a0c32638',
-      tx_in_hash:
-        '0xcb44f2840fc657d61b09a6b5e13799c7c42ab49884d3e48a6d86634808729156',
-      tx_out_hash:
-        '0x65b3e209e6e39d6e4db436232e76d3c63ff5667eed757712b17a2b7f98760afc',
-      address_from: `${body.addressFrom}`,
-      address_to: `${body.addressTo}`,
-      type_in: `${body.toNode}`,
-      type_out: `${body.fromNode}`,
-      amount: `${body.amount}`,
-      createdAt: '2020-09-07T11:54:33.075Z',
-      updatedAt: '2020-09-07T11:54:33.075Z',
-      status: 'PENDING',
     };
   }
 
