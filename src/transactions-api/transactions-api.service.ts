@@ -24,7 +24,7 @@ export class TransactionsApiService {
         } catch (e) {
             console.error(e);
             this.logger.error(JSON.stringify(e))
-            throw new Error(e.message)
+            throw e;
         }
     }
 
@@ -35,7 +35,7 @@ export class TransactionsApiService {
         } catch (e) {
             console.error(e);
             this.logger.error(JSON.stringify(e))
-            throw new Error(e.message)
+            throw e;
         }
     }
 }
