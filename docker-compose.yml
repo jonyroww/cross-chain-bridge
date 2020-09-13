@@ -4,7 +4,7 @@ networks:
   ignite-interproject-network:
     external:
       name: ignite-interproject-network
-      
+
 services:
   ignite-cross-chain-bridge:
     build: .
@@ -14,7 +14,7 @@ services:
       - 0.0.0.0:${DOCKER_COMPOSE_PORT}:80
     networks:
       default: null
-      ignite-interproject-network: null
+      ignite-interproject-network:
         aliases:
           - ignite-cross-chain-bridge
     volumes:
