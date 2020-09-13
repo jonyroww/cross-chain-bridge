@@ -1,16 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class TransferResponseDto {
-  @ApiProperty()
-  id: string;
-
-  @ApiPropertyOptional()
-  txOut: TransferTransactionDto;
-
-  @ApiPropertyOptional()
-  txIn: TransferTransactionDto;
-}
-
 export class TransferTransactionDto {
   @ApiPropertyOptional()
   txHash: string;
@@ -23,4 +12,15 @@ export class TransferTransactionDto {
 
   @ApiPropertyOptional()
   createdAt: string;
+}
+
+export class TransferResponseDto {
+  @ApiProperty()
+  id: string;
+
+  @ApiPropertyOptional()
+  txOut: TransferTransactionDto;
+
+  @ApiPropertyOptional()
+  txIn: TransferTransactionDto;
 }
