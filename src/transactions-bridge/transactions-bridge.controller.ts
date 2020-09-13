@@ -10,6 +10,7 @@ import { StatusCheckDto } from './dto/status-check-params.dto';
 import { CheckStatusResponseDto } from 'src/transactions-api/dto/CheckStatusResponseDto';
 import { TransactionDto } from 'src/transactions-api/dto/TransactionDto';
 import { CreateTransferResponseDto } from './dto/CreateTransferResponse.dto';
+import { TransferResponseDto } from './dto/TranferResponse.dto';
 
 @Controller('transfers')
 export class TransactionsBridgeController {
@@ -57,6 +58,28 @@ export class TransactionsBridgeController {
           status: 'SUCCESS',
         },
       ],
+    };
+  }
+
+  @ApiOkResponse({ type: () => TransactionDto })
+  @Get(':transferId')
+  getTransferById(@Param('id') transferId: string): TransferResponseDto {
+    return {
+      id: transferId,
+      txIn: {
+        amount: '100',
+        createdAt: '2020-09-08T09:45:03.673Z',
+        status: 'SUCCESS',
+        txHash:
+          '0x68df497a87d57595de94890916888e6c3ae8826df1624b22dc09e33e6b9393a3',
+      },
+      txOut: {
+        amount: '100',
+        createdAt: '2020-09-08T09:45:03.673Z',
+        status: 'SUCCESS',
+        txHash:
+          '0x4880c44f3bba8bfda9ddd7cdb304d41fe202bb319ac28e86293367ef2915b3f5',
+      },
     };
   }
 
