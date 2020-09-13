@@ -26,21 +26,21 @@ export class TransactionsBridgeController {
   ): Promise<CreateTransferResponseDto> {
     this.logger.log(`Transfer data: ${JSON.stringify(body)}`, 'transferTokens');
 
-    const transferObject:
-      | TransactionDto
-      | { id: null } = await this.transactionsApiService
-      .transferTokens(body)
-      .catch(err => {
-        this.logger.error(err);
-        return { id: null };
-      });
+    // const transferObject:
+    //   | TransactionDto
+    //   | { id: null } = await this.transactionsApiService
+    //   .transferTokens(body)
+    //   .catch(err => {
+    //     this.logger.error(err);
+    //     return { id: null };
+    //   });
 
-    this.logger.log({ transferObject });
+    // this.logger.log({ transferObject });
 
     const poolAddresses = await this.transactionsApiService.getPoolAddresses();
 
     const result = {
-      id: transferObject.id,
+      id: null,
       poolAddress: poolAddresses[body.fromNode],
     };
 
