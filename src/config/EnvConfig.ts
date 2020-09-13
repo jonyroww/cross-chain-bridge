@@ -16,6 +16,9 @@ export class EnvConfig {
     HISTORY_TRANSACTIONS_API: string;
 
     @Env({type: "string", required: true})
+    STATUS_CHECK_API: string;
+
+    @Env({type: "string", required: true})
     BASE_URL: string;
 }
 

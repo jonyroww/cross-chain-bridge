@@ -6,6 +6,8 @@ import { GetHistoryParamDto } from './dto/get-history-params.dto';
 import { Logger } from "nestjs-pino";
 import { TransferTokensResponseDto } from '../transactions-api/dto/TransferTokensResponseDto';
 import { GetHistoryResponseDto } from 'src/transactions-api/dto/GetHistoryResponseDto';
+import { StatusCheckDto } from './dto/status-check-params.dto';
+import { CheckStatusResponseDto } from 'src/transactions-api/dto/CheckStatusResponseDto';
 
 
 @Controller('transfers')
@@ -61,5 +63,15 @@ export class TransactionsBridgeController {
               }
             ]
         }
+    }
+
+    @ApiOkResponse({type: () => CheckStatusResponseDto})
+    @Get("/transaction-status")
+    checkTransactionStatus(@Param() param: StatusCheckDto): CheckStatusResponseDto {
+      this.logger.log(`Check status for: ${JSON.stringify(param)}`, "checkTransactionStatus")
+      //return this.transactionsApiService.statusCheck(param);
+      return {
+        status: "SUCCESS"
+      }
     }
 }
