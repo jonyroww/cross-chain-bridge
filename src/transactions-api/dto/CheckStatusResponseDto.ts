@@ -1,5 +1,5 @@
-import { NodeTypes } from "../constants/NodeTypes.enum";
+import { NodeTypes } from '../constants/NodeTypes.enum';
 
 export class CheckStatusResponseDto {
-    status: string;
+  status: string;
 }

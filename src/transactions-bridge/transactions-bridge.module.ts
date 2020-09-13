@@ -4,6 +4,6 @@ import { TransactionsApiService } from 'src/transactions-api/transactions-api.se
 
 @Module({
   controllers: [TransactionsBridgeController],
-  providers: [TransactionsApiService]
+  providers: [TransactionsApiService],
 })
 export class TransactionsBridgeModule {}
