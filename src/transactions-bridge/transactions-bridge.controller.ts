@@ -28,6 +28,7 @@ export class TransactionsBridgeController {
     // return this.transactionsApiService.transferTokens(body);
     return {
       id: '6c72bb89-7a87-4511-8cd8-5c90a0c32638',
+      holderAddress: '0x3CF55847a612F3A69778289DdDe2ADA1B50BC617',
     };
   }
 
