@@ -4,7 +4,7 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 
 
-export class GetHistoryDto {
+export class GetHistoryParamDto {
     @ApiProperty({required: true})
     @IsString()
     address: string;

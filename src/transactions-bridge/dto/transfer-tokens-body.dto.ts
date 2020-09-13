@@ -7,7 +7,7 @@ import {
 import { NodeTypes } from "src/transactions-api/constants/NodeTypes.enum";
 
 
-export class TransferTokensDto {
+export class TransferTokensBodyDto {
     @ApiProperty({required: true})
     @IsString()
     addressFrom: string;
