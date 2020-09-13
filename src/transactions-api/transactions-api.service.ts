@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import axios, { AxiosInstance } from 'axios';
 import { config } from 'src/config';
 import { TransferTokensResponseDto } from './dto/TransferTokensResponseDto';
@@ -27,10 +27,21 @@ export class TransactionsApiService {
       >('/transfer', params);
 
       return transferResponse.data.result;
-    } catch (e) {
-      console.error(e);
-      this.logger.error(JSON.stringify(e));
-      throw e;
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.status < 500 &&
+        error.response.data &&
+        Array.isArray(error.response.data.errors)
+      ) {
+        throw new HttpException(
+          error.response.data.errors[0],
+          error.response.status,
+        );
+      }
+      console.error(error);
+      this.logger.error(JSON.stringify(error));
+      throw error;
     }
   }
 
