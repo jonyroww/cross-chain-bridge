@@ -17,3 +17,5 @@ services:
       ignite-interproject-network: null
         aliases:
           - ignite-cross-chain-bridge
+    volumes:
+      - /data/ignite-cross-chain-bridge-backend/logs:/usr/src/app/logs

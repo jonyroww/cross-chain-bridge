@@ -25,14 +25,27 @@ export class TransactionsBridgeController {
     @Body() body: TransferTokensBodyDto,
   ): Promise<CreateTransferResponseDto> {
     this.logger.log(`Transfer data: ${JSON.stringify(body)}`, 'transferTokens');
-    const transferObject = await this.transactionsApiService.transferTokens(
-      body,
-    );
+
+    const transferObject:
+      | TransactionDto
+      | { id: null } = await this.transactionsApiService
+      .transferTokens(body)
+      .catch(err => {
+        this.logger.error(err);
+        return { id: null };
+      });
+
+    this.logger.log({ transferObject });
+
     const poolAddresses = await this.transactionsApiService.getPoolAddresses();
-    return {
+
+    const result = {
       id: transferObject.id,
       poolAddress: poolAddresses[body.fromNode],
     };
+
+    this.logger.log({ result });
+    return result;
   }
 
   @ApiOkResponse({ type: () => GetHistoryResponseDto })
@@ -89,18 +102,16 @@ export class TransactionsBridgeController {
     return {
       id: transferId,
       txIn: {
-        amount: '100',
+        amount: null,
         createdAt: '2020-09-08T09:45:03.673Z',
-        status: 'SUCCESS',
-        txHash:
-          '0x68df497a87d57595de94890916888e6c3ae8826df1624b22dc09e33e6b9393a3',
+        status: 'PENDING',
+        txHash: null,
       },
       txOut: {
-        amount: '100',
+        amount: null,
         createdAt: '2020-09-08T09:45:03.673Z',
-        status: 'SUCCESS',
-        txHash:
-          '0x4880c44f3bba8bfda9ddd7cdb304d41fe202bb319ac28e86293367ef2915b3f5',
+        status: 'PENDING',
+        txHash: null,
       },
     };
   }
