@@ -19,6 +19,9 @@ export class EnvConfig {
   STATUS_CHECK_API: string;
 
   @Env({ type: 'string', required: true })
+  IGNITE_TOKEN_EXCHANGE_API_BASE_URL: string;
+
+  @Env({ type: 'string', required: true })
   BASE_URL: string;
 }
 

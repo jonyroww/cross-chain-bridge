@@ -11,10 +11,6 @@ export class TransferTokensBodyDto {
   @IsString()
   addressTo: string;
 
-  @ApiProperty({ required: true })
-  @IsNumber()
-  amount: number;
-
   @ApiProperty({ enum: NodeTypes, required: true })
   @IsEnum(NodeTypes)
   fromNode: NodeTypes;

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { config } from 'src/config';
 import { TransferTokensResponseDto } from './dto/TransferTokensResponseDto';
 import { GetHistoryResponseDto } from './dto/GetHistoryResponseDto';
@@ -7,30 +7,26 @@ import { TransferTokensBodyDto } from 'src/transactions-bridge/dto/transfer-toke
 import { Logger } from 'nestjs-pino';
 import { StatusCheckDto } from '../transactions-bridge/dto/status-check-params.dto';
 import { CheckStatusResponseDto } from './dto/CheckStatusResponseDto';
+import { TransactionDto } from './dto/TransactionDto';
 
 @Injectable()
 export class TransactionsApiService {
-  constructor(private readonly logger: Logger) {}
+  private axiosInstance: AxiosInstance;
+  constructor(private readonly logger: Logger) {
+    this.axiosInstance = axios.create({
+      baseURL: config.IGNITE_TOKEN_EXCHANGE_API_BASE_URL,
+    });
+  }
 
-  public async transferTokens({
-    addressFrom,
-    addressTo,
-    amount,
-    fromNode,
-    toNode,
-  }: TransferTokensBodyDto): Promise<TransferTokensResponseDto> {
+  public async transferTokens(
+    params: TransferTokensBodyDto,
+  ): Promise<TransactionDto> {
     try {
-      const transferResponse = await axios.post(
-        config.TRANSFER_TOKENS_API_URL,
-        {
-          addressFrom,
-          addressTo,
-          amount,
-          fromNode,
-          toNode,
-        },
-      );
-      return transferResponse.data;
+      const transferResponse = await this.axiosInstance.post<
+        TransferTokensResponseDto
+      >('/transfer', params);
+
+      return transferResponse.data.result;
     } catch (e) {
       console.error(e);
       this.logger.error(JSON.stringify(e));
