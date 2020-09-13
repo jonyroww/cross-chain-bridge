@@ -83,18 +83,18 @@ export class TransactionsBridgeController {
     };
   }
 
-  @ApiOkResponse({ type: () => CheckStatusResponseDto })
-  @Get('/transaction-status')
-  checkTransactionStatus(
-    @Param() param: StatusCheckDto,
-  ): CheckStatusResponseDto {
-    this.logger.log(
-      `Check status for: ${JSON.stringify(param)}`,
-      'checkTransactionStatus',
-    );
-    //return this.transactionsApiService.statusCheck(param);
-    return {
-      status: 'SUCCESS',
-    };
-  }
+  // @ApiOkResponse({ type: () => CheckStatusResponseDto })
+  // @Get('/transaction-status')
+  // checkTransactionStatus(
+  //   @Param() param: StatusCheckDto,
+  // ): CheckStatusResponseDto {
+  //   this.logger.log(
+  //     `Check status for: ${JSON.stringify(param)}`,
+  //     'checkTransactionStatus',
+  //   );
+  //   //return this.transactionsApiService.statusCheck(param);
+  //   return {
+  //     status: 'SUCCESS',
+  //   };
+  // }
 }
