@@ -65,4 +65,24 @@ export class TransactionsApiService {
       throw e;
     }
   }
+
+  public async getTransferById(transferId: string): Promise<TransactionDto> {
+    try {
+      const transferResponse = await this.axiosInstance.get<
+        TransferTokensResponseDto
+      >(`transfer/get/${transferId}`);
+
+      return transferResponse.data.result;
+    } catch (err) {
+      console.error(err);
+      this.logger.error(JSON.stringify(err));
+      throw err;
+    }
+  }
+
+  public async getPoolAddresses(): Promise<{ ETH: string; BSC: string }> {
+    return this.axiosInstance
+      .get('transfer/holders')
+      .then(res => res.data.result);
+  }
 }

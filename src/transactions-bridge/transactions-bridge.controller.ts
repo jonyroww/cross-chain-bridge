@@ -21,14 +21,17 @@ export class TransactionsBridgeController {
 
   @ApiCreatedResponse({ type: () => CreateTransferResponseDto })
   @Post()
-  transferTokens(
+  async transferTokens(
     @Body() body: TransferTokensBodyDto,
-  ): CreateTransferResponseDto {
+  ): Promise<CreateTransferResponseDto> {
     this.logger.log(`Transfer data: ${JSON.stringify(body)}`, 'transferTokens');
-    // return this.transactionsApiService.transferTokens(body);
+    const transferObject = await this.transactionsApiService.transferTokens(
+      body,
+    );
+    const poolAddresses = await this.transactionsApiService.getPoolAddresses();
     return {
-      id: '6c72bb89-7a87-4511-8cd8-5c90a0c32638',
-      poolAddress: '0x3CF55847a612F3A69778289DdDe2ADA1B50BC617',
+      id: transferObject.id,
+      poolAddress: poolAddresses[body.fromNode],
     };
   }
 
@@ -65,6 +68,24 @@ export class TransactionsBridgeController {
   @ApiOkResponse({ type: () => TransferResponseDto })
   @Get(':transferId')
   getTransferById(@Param('id') transferId: string): TransferResponseDto {
+    // const transfer = await this.transactionsApiService.getTransferById(
+    //   transferId,
+    // );
+    // return {
+    //   id: transfer.id,
+    //   txIn: {
+    //     amount: transfer.amount,
+    //     createdAt: transfer.createdAt,
+    //     status: transfer.status,
+    //     txHash: transfer.tx_in_hash,
+    //   },
+    //   txOut: {
+    //     amount: transfer.amount,
+    //     createdAt: transfer.createdAt,
+    //     status: transfer.status,
+    //     txHash: transfer.tx_out_hash,
+    //   },
+    // };
     return {
       id: transferId,
       txIn: {
