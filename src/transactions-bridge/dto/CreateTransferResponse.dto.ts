@@ -5,5 +5,5 @@ export class CreateTransferResponseDto {
   id: string;
 
   @ApiProperty()
-  holderAddress: string;
+  poolAddress: string;
 }
