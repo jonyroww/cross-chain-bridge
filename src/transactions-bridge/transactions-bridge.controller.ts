@@ -61,7 +61,7 @@ export class TransactionsBridgeController {
     };
   }
 
-  @ApiOkResponse({ type: () => TransactionDto })
+  @ApiOkResponse({ type: () => TransferResponseDto })
   @Get(':transferId')
   getTransferById(@Param('id') transferId: string): TransferResponseDto {
     return {
