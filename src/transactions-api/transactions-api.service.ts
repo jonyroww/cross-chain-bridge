@@ -59,16 +59,16 @@ export class TransactionsApiService {
   }
 
   public async statusCheck({
-    tx_hash,
-    type,
+    txHash,
+    nodeType,
   }: StatusCheckDto): Promise<CheckStatusResponseDto> {
     try {
       const statusCheckResponse = await this.axiosInstance.get<
         CheckStatusResponseDto
       >('/transactions/status', {
         params: {
-          tx_hash,
-          type,
+          tx_hash: txHash,
+          type: nodeType,
         },
       });
       return statusCheckResponse.data;

@@ -5,9 +5,9 @@ import { NodeTypes } from '../../transactions-api/constants/NodeTypes.enum';
 export class StatusCheckDto {
   @ApiProperty()
   @IsString()
-  tx_hash: string;
+  txHash: string;
 
   @ApiProperty({ enum: NodeTypes })
   @IsEnum(NodeTypes)
-  type: NodeTypes;
+  nodeType: NodeTypes;
 }
