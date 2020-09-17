@@ -10,15 +10,6 @@ export class EnvConfig {
   HOST: string;
 
   @Env({ type: 'string', required: true })
-  TRANSFER_TOKENS_API_URL: string;
-
-  @Env({ type: 'string', required: true })
-  HISTORY_TRANSACTIONS_API: string;
-
-  @Env({ type: 'string', required: true })
-  STATUS_CHECK_API: string;
-
-  @Env({ type: 'string', required: true })
   IGNITE_TOKEN_EXCHANGE_API_BASE_URL: string;
 
   @Env({ type: 'string', required: true })

@@ -19,12 +19,12 @@ export class TransactionsApiService {
   }
 
   public async transferTokens(
-    params: TransferTokensBodyDto,
+    body: TransferTokensBodyDto,
   ): Promise<TransactionDto> {
     try {
       const transferResponse = await this.axiosInstance.post<
         TransferTokensResponseDto
-      >('/transfer', params);
+      >('/transfer', body);
 
       return transferResponse.data.result;
     } catch (error) {
@@ -47,9 +47,9 @@ export class TransactionsApiService {
 
   public async getHistory(address: string): Promise<GetHistoryResponseDto> {
     try {
-      const historyResponse = await axios.get(config.HISTORY_TRANSACTIONS_API, {
-        params: { address },
-      });
+      const historyResponse = await this.axiosInstance.get<
+        GetHistoryResponseDto
+      >('/transactions/bsc', { params: { address } });
       return historyResponse.data;
     } catch (e) {
       console.error(e);
@@ -59,14 +59,16 @@ export class TransactionsApiService {
   }
 
   public async statusCheck({
-    txHash,
-    nodeType,
+    tx_hash,
+    type,
   }: StatusCheckDto): Promise<CheckStatusResponseDto> {
     try {
-      const statusCheckResponse = await axios.get(config.STATUS_CHECK_API, {
+      const statusCheckResponse = await this.axiosInstance.get<
+        CheckStatusResponseDto
+      >('/transactions/status', {
         params: {
-          tx_hash: txHash,
-          type: nodeType,
+          tx_hash,
+          type,
         },
       });
       return statusCheckResponse.data;
