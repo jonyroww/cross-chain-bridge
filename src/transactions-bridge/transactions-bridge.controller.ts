@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, Query } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { TransactionsApiService } from 'src/transactions-api/transactions-api.service';
 import { TransferTokensBodyDto } from './dto/transfer-tokens-body.dto';
@@ -40,7 +40,7 @@ export class TransactionsBridgeController {
     const poolAddresses = await this.transactionsApiService.getPoolAddresses();
 
     const result = {
-      id: null,
+      id: transferObject.id,
       poolAddress: poolAddresses[body.fromNode],
     };
 
@@ -51,19 +51,19 @@ export class TransactionsBridgeController {
   @ApiOkResponse({ type: () => GetHistoryResponseDto })
   @Get()
   getHistory(
-    @Param() param: GetHistoryParamDto,
+    @Query() query: GetHistoryParamDto,
   ): Promise<GetHistoryResponseDto> {
     this.logger.log(
-      `History for address: ${JSON.stringify(param.address)}`,
+      `History for address: ${JSON.stringify(query.address)}`,
       'getHistory',
     );
-    return this.transactionsApiService.getHistory(param.address);
+    return this.transactionsApiService.getHistory(query.address);
   }
 
   @ApiOkResponse({ type: () => TransferResponseDto })
-  @Get(':transferId')
+  @Get('/:transferId')
   async getTransferById(
-    @Param('id') transferId: string,
+    @Param('transferId') transferId: string,
   ): Promise<TransferResponseDto> {
     const transfer = await this.transactionsApiService.getTransferById(
       transferId,
@@ -86,14 +86,14 @@ export class TransactionsBridgeController {
   }
 
   @ApiOkResponse({ type: () => CheckStatusResponseDto })
-  @Get('/transaction-status')
+  @Get('/transactions/transaction-status')
   checkTransactionStatus(
-    @Param() param: StatusCheckDto,
+    @Query() query: StatusCheckDto,
   ): Promise<CheckStatusResponseDto> {
     this.logger.log(
-      `Check status for: ${JSON.stringify(param)}`,
+      `Check status for: ${JSON.stringify(query)}`,
       'checkTransactionStatus',
     );
-    return this.transactionsApiService.statusCheck(param);
+    return this.transactionsApiService.statusCheck(query);
   }
 }
