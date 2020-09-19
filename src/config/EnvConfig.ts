@@ -14,6 +14,21 @@ export class EnvConfig {
 
   @Env({ type: 'string', required: true })
   BASE_URL: string;
+
+  @Env({ type: 'string', required: true })
+  DB_HOST: string;
+
+  @Env({ type: 'number', required: true })
+  DB_PORT: number;
+
+  @Env({ type: 'string', required: true })
+  DB_USERNAME: string;
+
+  @Env({ type: 'string', required: true })
+  DB_PASSWORD: string;
+
+  @Env({ type: 'string', required: true })
+  DB_NAME: string;
 }
 
 export const configEnv = loadConfig(EnvConfig);
