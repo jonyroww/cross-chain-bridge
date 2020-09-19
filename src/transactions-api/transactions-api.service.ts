@@ -8,11 +8,15 @@ import { Logger } from 'nestjs-pino';
 import { StatusCheckDto } from '../transactions-bridge/dto/status-check-params.dto';
 import { CheckStatusResponseDto } from './dto/CheckStatusResponseDto';
 import { TransactionDto } from './dto/TransactionDto';
+import { TransferDataRepository } from './repositories/transfer-data.repository';
 
 @Injectable()
 export class TransactionsApiService {
   private axiosInstance: AxiosInstance;
-  constructor(private readonly logger: Logger) {
+  constructor(
+    private readonly logger: Logger,
+    private transferDataRepository: TransferDataRepository,
+  ) {
     this.axiosInstance = axios.create({
       baseURL: config.IGNITE_TOKEN_EXCHANGE_API_BASE_URL,
     });
@@ -25,7 +29,9 @@ export class TransactionsApiService {
       const transferResponse = await this.axiosInstance.post<
         TransferTokensResponseDto
       >('/transfer', body);
-
+      const transferData = this.transferDataRepository.create(body);
+      transferData.transactionId = transferResponse.data.result.id;
+      await this.transferDataRepository.save(transferData);
       return transferResponse.data.result;
     } catch (error) {
       if (
