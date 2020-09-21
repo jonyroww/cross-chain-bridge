@@ -30,7 +30,9 @@ export class TransactionsApiService {
         TransferTokensResponseDto
       >('/transfer', body);
       const transferData = this.transferDataRepository.create(body);
-      transferData.transactionId = transferResponse.data.result.id;
+      if (transferResponse.data.result.id) {
+        transferData.transactionId = transferResponse.data.result.id;
+      }
       await this.transferDataRepository.save(transferData);
       return transferResponse.data.result;
     } catch (error) {
