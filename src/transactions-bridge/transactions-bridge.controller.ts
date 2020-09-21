@@ -32,7 +32,7 @@ export class TransactionsBridgeController {
       .transferTokens(body)
       .catch(err => {
         this.logger.error(err);
-        return { id: null };
+        throw err;
       });
 
     this.logger.log({ transferObject });
