@@ -6,6 +6,7 @@ import {
 } from 'typeorm';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { NodeTypes } from '../constants/NodeTypes.enum';
+import { TransactionDto } from '../dto/TransactionDto';
 
 @Entity({ name: 'transfer_data' })
 export class TransferData {
@@ -55,4 +56,10 @@ export class TransferData {
     type: 'varchar',
   })
   transactionId: string;
+
+  @ApiProperty()
+  @Column({
+    type: 'jsonb',
+  })
+  transferResponse: string;
 }

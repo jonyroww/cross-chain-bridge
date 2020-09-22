@@ -24,16 +24,30 @@ export class TransactionsApiService {
 
   public async transferTokens(
     body: TransferTokensBodyDto,
-  ): Promise<TransactionDto> {
+  ): Promise<TransactionDto | any> {
     try {
-      const transferResponse = await this.axiosInstance.post<
-        TransferTokensResponseDto
-      >('/transfer', body);
       const transferData = this.transferDataRepository.create(body);
-      if (transferResponse.status === 201 && transferResponse.data.result) {
-        transferData.transactionId = transferResponse.data.result.id;
-      }
       await this.transferDataRepository.save(transferData);
+      const transferResponse = await this.axiosInstance
+        .post<TransferTokensResponseDto>('/transfer', body)
+        .catch(async error => {
+          await this.transferDataRepository.update(
+            { id: transferData.id },
+            { transferResponse: JSON.stringify(error) },
+          );
+          throw error;
+        });
+
+      if (transferResponse.status === 201 && transferResponse.data.result) {
+        await this.transferDataRepository.update(
+          { id: transferData.id },
+          {
+            transactionId: transferResponse.data.result.id,
+            transferResponse: JSON.stringify(transferResponse.data.result),
+          },
+        );
+      }
+
       return transferResponse.data.result;
     } catch (error) {
       if (

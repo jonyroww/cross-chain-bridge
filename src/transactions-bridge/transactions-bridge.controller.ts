@@ -11,6 +11,7 @@ import { CheckStatusResponseDto } from 'src/transactions-api/dto/CheckStatusResp
 import { TransactionDto } from 'src/transactions-api/dto/TransactionDto';
 import { CreateTransferResponseDto } from './dto/CreateTransferResponse.dto';
 import { TransferResponseDto } from './dto/TranferResponse.dto';
+import { AxiosResponse } from 'axios';
 
 @Controller('transfers')
 export class TransactionsBridgeController {
@@ -27,16 +28,15 @@ export class TransactionsBridgeController {
     this.logger.log(`Transfer data: ${JSON.stringify(body)}`, 'transferTokens');
 
     const transferObject:
-      | TransactionDto
-      | { id: null } = await this.transactionsApiService
+      | any
+      | TransactionDto = await this.transactionsApiService
       .transferTokens(body)
       .catch(err => {
         this.logger.error(err);
-        return { id: null };
+        throw err;
       });
 
     this.logger.log({ transferObject });
-
     const poolAddresses = await this.transactionsApiService.getPoolAddresses();
 
     const result = {
