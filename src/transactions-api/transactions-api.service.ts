@@ -8,11 +8,15 @@ import { Logger } from 'nestjs-pino';
 import { StatusCheckDto } from '../transactions-bridge/dto/status-check-params.dto';
 import { CheckStatusResponseDto } from './dto/CheckStatusResponseDto';
 import { TransactionDto } from './dto/TransactionDto';
+import { TransferDataRepository } from './repositories/transfer-data.repository';
 
 @Injectable()
 export class TransactionsApiService {
   private axiosInstance: AxiosInstance;
-  constructor(private readonly logger: Logger) {
+  constructor(
+    private readonly logger: Logger,
+    private transferDataRepository: TransferDataRepository,
+  ) {
     this.axiosInstance = axios.create({
       baseURL: config.IGNITE_TOKEN_EXCHANGE_API_BASE_URL,
     });
@@ -20,11 +24,29 @@ export class TransactionsApiService {
 
   public async transferTokens(
     body: TransferTokensBodyDto,
-  ): Promise<TransactionDto> {
+  ): Promise<TransactionDto | any> {
     try {
-      const transferResponse = await this.axiosInstance.post<
-        TransferTokensResponseDto
-      >('/transfer', body);
+      const transferData = this.transferDataRepository.create(body);
+      await this.transferDataRepository.save(transferData);
+      const transferResponse = await this.axiosInstance
+        .post<TransferTokensResponseDto>('/transfer', body)
+        .catch(async error => {
+          await this.transferDataRepository.update(
+            { id: transferData.id },
+            { transferResponse: JSON.stringify(error) },
+          );
+          throw error;
+        });
+
+      if (transferResponse.status === 201 && transferResponse.data.result) {
+        await this.transferDataRepository.update(
+          { id: transferData.id },
+          {
+            transactionId: transferResponse.data.result.id,
+            transferResponse: JSON.stringify(transferResponse.data.result),
+          },
+        );
+      }
 
       return transferResponse.data.result;
     } catch (error) {

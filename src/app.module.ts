@@ -4,6 +4,7 @@ import { LoggerModule } from 'nestjs-pino';
 import pino from 'pino';
 import path from 'path';
 import appRootPath from 'app-root-path';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import appRootPath from 'app-root-path';
         };
       },
     }),
+    TypeOrmModule.forRoot(),
   ],
   controllers: [],
   providers: [],
